@@ -1,0 +1,31 @@
+import React from "react";
+
+const TextInput = (props) => {
+  const {
+    inputName,
+    inputType,
+    inputValue,
+    inputPlaceholder,
+    inputHandle,
+    className,
+    TextInputStyles,
+  } = props;
+
+  const classes =
+    "border-2 border-stone-400 p-2 rounded w-full transition-colors duration-700 outline-0 focus:border-stone-950 placeholder:text-sm caret-stone-950" +
+    className;
+  return (
+    <textarea
+      name={inputName}
+      type={inputType}
+      value={inputValue}
+      placeholder={inputPlaceholder}
+      onChange={inputHandle}
+      className={classes}
+      style={{ ...TextInputStyles }}
+      required
+    />
+  );
+};
+
+export default TextInput;

@@ -17,7 +17,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const Detail = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [isRSVP, setIsRSVP] = useState();
+  const [toRSPV, setToRSPV] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -43,12 +43,10 @@ const Detail = () => {
     isRSVP = true;
   } else if (currentDate > convertEndDate) {
     isRSVP = false;
-    // console.log({ currentDate, convertEndDate });
   } else {
     isRSVP = true;
   }
 
-  console.log({ currentDate, convertEndDate, isRSVP });
   return (
     <PageContainer>
       <Header />
@@ -144,7 +142,7 @@ const Detail = () => {
                 modalTitle="Complete your RSVP"
                 modalBtnVariant={
                   <ContainedActionBtn handleClick={openModal}>
-                    RSVP
+                    {toRSPV ? "Already RSPV" : "RSPV"}
                   </ContainedActionBtn>
                 }
               >
@@ -161,7 +159,14 @@ const Detail = () => {
                   {getEvent?.isPaid && (
                     <p>*You have to make the payment at the venue.</p>
                   )}
-                  <ContainedActionBtn>RSVP</ContainedActionBtn>
+                  <ContainedActionBtn
+                    handleClick={() => {
+                      setToRSPV(true);
+                      closeModal();
+                    }}
+                  >
+                    RSPV
+                  </ContainedActionBtn>
                 </div>
               </ModalProvider>
             )}

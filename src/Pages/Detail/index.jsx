@@ -17,6 +17,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const Detail = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // const [isRSVP, setIsRSVP] = useState();
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -27,6 +28,8 @@ const Detail = () => {
     return currentEvent.id == eventId;
   });
 
+  const currentDate = moment(new Date()).utc().format("YYYY-MM-DD");
+
   const convertStartDate = moment(getEvent?.eventStartTime)
     .utc()
     .format("YYYY-MM-DD");
@@ -34,6 +37,18 @@ const Detail = () => {
     .utc()
     .format("YYYY-MM-DD");
 
+  let isRSVP;
+
+  if (currentDate < convertEndDate) {
+    isRSVP = true;
+  } else if (currentDate > convertEndDate) {
+    isRSVP = false;
+    // console.log({ currentDate, convertEndDate });
+  } else {
+    isRSVP = true;
+  }
+
+  console.log({ currentDate, convertEndDate, isRSVP });
   return (
     <PageContainer>
       <Header />
@@ -93,10 +108,12 @@ const Detail = () => {
                 <span>{getEvent?.address}</span>
               </div>
             </div>
-            <div className="flex gap-4 items-center">
-              <CurrencyRupeeIcon />
-              <span>{getEvent?.price}</span>
-            </div>
+            {getEvent?.isPaid && (
+              <div className="flex gap-4 items-center">
+                <CurrencyRupeeIcon />
+                <span>{getEvent?.price}</span>
+              </div>
+            )}
           </article>
           <div className="flex flex-col gap-2">
             <h3>Speakers: {getEvent?.speakers.length}</h3>
@@ -117,30 +134,34 @@ const Detail = () => {
               })}
             </div>
           </div>
-          <ModalProvider
-            isOpen={isOpen}
-            closeModal={closeModal}
-            modalTitle="Complete your RSVP"
-            modalBtnVariant={
-              <ContainedActionBtn handleClick={openModal}>
-                RSVP
-              </ContainedActionBtn>
-            }
-          >
-            <div className="flex flex-col gap-4 p-4">
-              <p>Fill in your personal information</p>
-              <form className="flex flex-col gap-3">
-                <TextInputLabel labelText="Label Text:">
-                  <TextInput />
-                </TextInputLabel>
-                <TextInputLabel labelText="Email:">
-                  <TextInput />
-                </TextInputLabel>
-              </form>
-              <p>You have to make the payment at the venue.</p>
-              <ContainedActionBtn>RSVP</ContainedActionBtn>
-            </div>
-          </ModalProvider>
+          {isRSVP && (
+            <ModalProvider
+              isOpen={isOpen}
+              closeModal={closeModal}
+              modalTitle="Complete your RSVP"
+              modalBtnVariant={
+                <ContainedActionBtn handleClick={openModal}>
+                  RSVP
+                </ContainedActionBtn>
+              }
+            >
+              <div className="flex flex-col gap-4 p-4">
+                <p>Fill in your personal information</p>
+                <form className="flex flex-col gap-3">
+                  <TextInputLabel labelText="Label Text:">
+                    <TextInput />
+                  </TextInputLabel>
+                  <TextInputLabel labelText="Email:">
+                    <TextInput />
+                  </TextInputLabel>
+                </form>
+                {getEvent?.isPaid && (
+                  <p>*You have to make the payment at the venue.</p>
+                )}
+                <ContainedActionBtn>RSVP</ContainedActionBtn>
+              </div>
+            </ModalProvider>
+          )}
         </div>
       </div>
     </PageContainer>

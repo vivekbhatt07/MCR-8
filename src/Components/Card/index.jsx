@@ -25,6 +25,7 @@ const Card = (props) => {
     .utc()
     .format("YYYY-MM-DD");
   const convertEndDate = moment(props.eventEndTime).utc().format("YYYY-MM-DD");
+
   return (
     <Link to={`/${props?.id}`}>
       <div className="flex flex-col min-w-[250px] max-w-[250px] border border-stone-400 rounded-sm items-stretch">

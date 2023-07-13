@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import { ContainedActionBtn, Header, PageContainer } from "../../Components";
+import {
+  ContainedActionBtn,
+  Header,
+  ModalProvider,
+  PageContainer,
+  TextInput,
+  TextInputLabel,
+} from "../../Components";
 import { useData } from "../../Context";
 import { Chip } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -9,6 +16,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const Detail = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+
   const { state } = useData();
   const { eventId } = useParams();
   const getEvent = state.list.find((currentEvent) => {
@@ -105,7 +117,30 @@ const Detail = () => {
               })}
             </div>
           </div>
-          <ContainedActionBtn>RSVP</ContainedActionBtn>
+          <ModalProvider
+            isOpen={isOpen}
+            closeModal={closeModal}
+            modalTitle="Complete your RSVP"
+            modalBtnVariant={
+              <ContainedActionBtn handleClick={openModal}>
+                RSVP
+              </ContainedActionBtn>
+            }
+          >
+            <div className="flex flex-col gap-4 p-4">
+              <p>Fill in your personal information</p>
+              <form className="flex flex-col gap-3">
+                <TextInputLabel labelText="Label Text:">
+                  <TextInput />
+                </TextInputLabel>
+                <TextInputLabel labelText="Email:">
+                  <TextInput />
+                </TextInputLabel>
+              </form>
+              <p>You have to make the payment at the venue.</p>
+              <ContainedActionBtn>RSVP</ContainedActionBtn>
+            </div>
+          </ModalProvider>
         </div>
       </div>
     </PageContainer>

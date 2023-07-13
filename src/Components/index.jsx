@@ -11,7 +11,7 @@ import {
 } from "./Actions";
 import TextInputLabel from "./TextInputLabel";
 import TextInput from "./TextInput";
-
+import Header from "./Header";
 export {
   Card,
   ModalProvider,
@@ -24,4 +24,5 @@ export {
   ReviewCard,
   TextInputLabel,
   TextInput,
+  Header,
 };

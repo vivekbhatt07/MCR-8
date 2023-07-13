@@ -69,7 +69,9 @@ const Detail = () => {
           {/* DETAILS */}
           <div className="flex flex-col gap-4">
             <h3>Details</h3>
-            <p>{getEvent?.eventDescription}</p>
+            <p className="font-light text-stone-500">
+              {getEvent?.eventDescription}
+            </p>
           </div>
           {/* ADDITIONAL */}
           <div className="flex flex-col gap-4">
@@ -92,8 +94,8 @@ const Detail = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col basis-1/2 items-center gap-6">
-          <article className="flex flex-col gap-4 p-4 rounded-md border border-[#ddd] min-w-[380px]">
+        <div className="flex flex-col basis-1/2 gap-6">
+          <article className="flex flex-col gap-4 p-4 rounded-md border border-[#ddd] w-[380px] mx-auto">
             <div className="flex gap-4 items-center">
               <AccessTimeIcon />
               <div className="flex flex-col">
@@ -115,7 +117,7 @@ const Detail = () => {
               </div>
             )}
           </article>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-[380px] mx-auto">
             <h3>Speakers: {getEvent?.speakers.length}</h3>
             <div className="flex flex-wrap gap-4">
               {getEvent?.speakers.map((currentSpeaker) => {
@@ -134,34 +136,36 @@ const Detail = () => {
               })}
             </div>
           </div>
-          {isRSVP && (
-            <ModalProvider
-              isOpen={isOpen}
-              closeModal={closeModal}
-              modalTitle="Complete your RSVP"
-              modalBtnVariant={
-                <ContainedActionBtn handleClick={openModal}>
-                  RSVP
-                </ContainedActionBtn>
-              }
-            >
-              <div className="flex flex-col gap-4 p-4">
-                <p>Fill in your personal information</p>
-                <form className="flex flex-col gap-3">
-                  <TextInputLabel labelText="Label Text:">
-                    <TextInput />
-                  </TextInputLabel>
-                  <TextInputLabel labelText="Email:">
-                    <TextInput />
-                  </TextInputLabel>
-                </form>
-                {getEvent?.isPaid && (
-                  <p>*You have to make the payment at the venue.</p>
-                )}
-                <ContainedActionBtn>RSVP</ContainedActionBtn>
-              </div>
-            </ModalProvider>
-          )}
+          <div className="flex justify-center">
+            {isRSVP && (
+              <ModalProvider
+                isOpen={isOpen}
+                closeModal={closeModal}
+                modalTitle="Complete your RSVP"
+                modalBtnVariant={
+                  <ContainedActionBtn handleClick={openModal}>
+                    RSVP
+                  </ContainedActionBtn>
+                }
+              >
+                <div className="flex flex-col gap-4 p-4">
+                  <p>Fill in your personal information</p>
+                  <form className="flex flex-col gap-3">
+                    <TextInputLabel labelText="Label Text:">
+                      <TextInput />
+                    </TextInputLabel>
+                    <TextInputLabel labelText="Email:">
+                      <TextInput />
+                    </TextInputLabel>
+                  </form>
+                  {getEvent?.isPaid && (
+                    <p>*You have to make the payment at the venue.</p>
+                  )}
+                  <ContainedActionBtn>RSVP</ContainedActionBtn>
+                </div>
+              </ModalProvider>
+            )}
+          </div>
         </div>
       </div>
     </PageContainer>
